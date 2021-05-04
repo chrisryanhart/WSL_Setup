@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>User Info</h2>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for msg in messages %}
+            <li>{{msg}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+
+<p>
+    <span> <b>Username:</b> {{user.username}}</span>
+</p>
+<p>
+    <span> <b>Email:</b> {{user.email}}</span>
+</p>
+<p>
+    <span> <b>First Name:</b> {{user.first_name}}</span>
+</p>
+<p>
+    <span> <b>Last Name:</b> {{user.last_name}}</span>
+</p>
+
+
+<h2>Posts by: {{user.username}}</h2>
+
+    {% for post in posts %}
+        <ul>
+            <li>{{post.title}}:
+                <ul>
+                    <li>{{post.content}}
+                        <form action="/feedback/{{post.id}}/update" method="GET">
+                            {{form.hidden_tag()}}
+                            <button type="submit">Edit Post</button>
+                        </form>
+
+                        <form action="/feedback/{{post.id}}/delete" method="POST">
+                            {{form.hidden_tag()}}
+                            <button type="submit">X</button>
+                        </form>
+
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    {% endfor %}
+    
+    <div>
+        <span>
+            <form>
+                {{form.hidden_tag()}}
+                <button type="submit" formmethod="GET" formaction="/users/{{user.username}}/feedback/add">Add Feedback</button>
+                <button type="submit" formmethod="POST" formaction="/users/{{user.username}}/delete">Delete User</button>
+            </form>
+        </span>
+    </div>
+
+
+
+{% endblock %}

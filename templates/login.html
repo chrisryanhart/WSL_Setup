@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>User Login</h2>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for msg in messages %}
+            <li>{{msg}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+
+<form action="/login" id="login-user-form" method="POST">
+    {{ form.hidden_tag() }}
+
+    {% for field in form if field.widget.input_type != 'hidden' %}
+
+        <p>
+            {{field.label}}
+            {{field}}
+
+            {% for error in field.errors %}
+                {{error}}
+
+            {% endfor %}
+
+        </p>
+    {% endfor %}
+
+    <button type="submit">submit</button>
+    
+</form>
+
+{% endblock %}
